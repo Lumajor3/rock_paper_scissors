@@ -1,3 +1,6 @@
+let playerScore = 0;
+let computerScore = 0;
+
 function getComputerSelection() {
     const choices = ["Rock", "Paper", "Scissors"]
     return randChoice = choices[Math.floor(Math.random() * 3)];
@@ -19,49 +22,71 @@ function playRockPaperScissors(computerSelection, playerSelection) {
 
     if (computerSelection == "Rock") {
         if (playerSelection == "rock") {
-            return "Tie"
+            displayResult(computerSelection, playerSelection, "Tie")
         } else if (playerSelection == "paper") {
-            return "User Win"
+            playerScore++
+            displayResult(computerSelection, playerSelection, "User Win");
         } else if (playerSelection == "Scissors") {
-            return "Computer Win"
+            computerScore++
+            displayResult(computerSelection, playerSelection, "Computer Win");
         } 
     } else if (computerSelection == "Paper") {
         if (playerSelection == "rock") {
-            return "Computer Win"
+            computerScore++
+            displayResult(computerSelection, playerSelection, "Computer Win");
         } else if (playerSelection == "paper") {
-            return "Tie"
+            displayResult(computerSelection, playerSelection, "Tie")
         } else if (playerSelection == "scissors") {
-            return "User Win"
+            playerScore++
+            displayResult(computerSelection, playerSelection, "User Win");
         } 
     } else if (computerSelection == "Scissors") {
         if (playerSelection == "rock") {
-            return "User Win"
+            playerScore++
+            displayResult(computerSelection, playerSelection, "User Win");
         } else if (playerSelection == "paper") {
-            return "Computer Win"
+            computerScore++
+            displayResult(computerSelection, playerSelection, "Computer Win");
         } else if (playerSelection == "scissors") {
-            return "Tie"
+            displayResult(computerSelection, playerSelection, "Tie")
         } 
     }    
 }
 
-function game() {
-    let userWins = 0
-    let computerWins = 0;
-    let ties = 0;
+function displayResult(computerSelection, playerSelection, result) {
 
-    for (let i=0;i<5;i++) {
-        let result = playRockPaperScissors(getComputerSelection(), getPlayerSelection());
+    let gameResultDiv = document.querySelector(".game-result");
+    let userWinsDiv = document.querySelector(".user-wins");
+    let computerWinsDiv = document.querySelector(".computer-wins");
+    let gameOverDiv = document.querySelector(".game-over");
 
-        if (result == "Tie") {
-            ties++
-        } else if (result == "User Win") {
-            userWins++
-        } else if (result == "Computer Win") {
-            computerWins++
-        }
+    gameOverDiv.textContent = "";
+
+    userWinsDiv.textContent = "User Wins: " + playerScore ;
+    computerWinsDiv.textContent = "Computer Wins: " + computerScore;
+
+    if (result == "Tie") {
+        gameResultDiv.textContent = "Computer selected " + computerSelection +  ", user Selected " + playerSelection + ", Tie Game"
+    } else if (result == "User Win") {
+        gameResultDiv.textContent = "Computer selected " + computerSelection +  ", user Selected " + playerSelection + ", User Win"
+    } else if (result == "Computer Win") {
+        gameResultDiv.textContent = "Computer selected " + computerSelection +  ", user Selected " + playerSelection + ", Computer Win"
     }
 
-    console.log("Result - Computer Wins: " + computerWins + " | User Wins: " + userWins + " | Ties: " + ties);
+    if (playerScore == 5) {
+        gameOverDiv.textContent = "Game over, user wins with 5";
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerScore == 5) {
+        gameOverDiv.textContent = "Game over, computer wins with 5";
+        playerScore = 0;
+        computerScore = 0;
+    }
 }
 
-game();
+const buttons = document.querySelectorAll(".player-button")
+buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        playRockPaperScissors(getComputerSelection(), e.target.value);
+    })
+})

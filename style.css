@@ -1,0 +1,23 @@
+.selection-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.selection-results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.game-result {
+    margin-top: 10px;
+}
+.game-score {
+    margin-top: 10px;
+}
+.game-over {
+    margin-top: 10px;
+}
